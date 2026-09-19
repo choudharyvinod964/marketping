@@ -117,6 +117,39 @@ curl -s -X POST https://mcp.marketping.in/mcp \
 
 The second response is `tools.json`.
 
+## About MarketPing
+
+[MarketPing](https://marketping.in) is an Indian stock-market research platform built around one
+idea: every NSE and BSE corporate filing, read by AI the moment it is published, delivered to
+WhatsApp within a minute, and followed by the **measured price reaction** — what the stock actually
+did 5 minutes to 3 months later. 500,000+ filings decoded, 1.9 million reactions measured, 5,000+
+companies. It publishes no buy/sell calls, no price targets and no ratings.
+
+What the same data looks like on the site (every MCP result links back to one of these):
+
+- [Announcements feed](https://marketping.in/alerts) — every filing with its AI read and reaction; e.g. a
+  [contract-win filing](https://marketping.in/discover/contract-wins) or a [buyback](https://marketping.in/discover/shareholder-returns)
+- [Company pages](https://marketping.in/companies) — filings, financials, concall reads and the results
+  date; e.g. [Reliance Industries](https://marketping.in/companies/reliance-industries),
+  [HDFC Bank](https://marketping.in/companies/hdfc-bank)
+- [Discover](https://marketping.in/discover) — stocks by catalyst: contract wins, QIPs, pledges released,
+  demergers, CEO exits, splits and bonuses
+- [Screener](https://marketping.in/screener) — 108 fundamentals metrics with custom formulas, and
+  [Stacks](https://marketping.in/stacks), lists composed from screens, indices and watchlists
+- [IPO tracker](https://marketping.in/ipo) — 1,150+ issues, live subscription by category, listing
+  performance, banker league tables, deliberately no grey-market premium
+- [Daily market briefing](https://marketping.in/market/daily) and its [archive](https://marketping.in/market/daily/archive),
+  [FPI flows](https://marketping.in/market), the [results calendar](https://marketping.in/calendar)
+- [Reaction Lab](https://marketping.in/reaction) — how each category of announcement has moved stocks, in aggregate
+- [Glossary](https://marketping.in/glossary) (60 terms, e.g. [earnings call](https://marketping.in/glossary/earnings-call),
+  [record date vs ex-date](https://marketping.in/glossary/record-date-ex-date), [QIP](https://marketping.in/glossary/qip)),
+  [33 free calculators](https://marketping.in/tools), [comparisons](https://marketping.in/compare) with
+  Screener.in, Tickertape, Trendlyne and others
+- [Nexa AI](https://marketping.in/nexa) — ask anything about a company and get page-cited answers
+- [Features](https://marketping.in/features) · [Pricing](https://marketping.in/pricing) — free for 5 companies with
+  WhatsApp delivery; Investor ₹199/month (30), Trader ₹599/month (100)
+- [llms.txt](https://marketping.in/llms.txt) — the answer blocks MarketPing publishes for AI assistants
+
 ## License
 
 The bridge and the files in this repository are MIT-licensed (see `LICENSE`). The MarketPing
