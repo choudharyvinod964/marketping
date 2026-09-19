@@ -5,7 +5,7 @@
   "license": "MIT",
   "author": "MarketPing <support@marketping.in> (https://marketping.in)",
   "homepage": "https://marketping.in/mcp",
-  "repository": { "type": "git", "url": "https://github.com/marketping/mcp-server.git" },
+  "repository": { "type": "git", "url": "https://github.com/choudharyvinod964/marketping.git" },
   "bin": { "marketping-mcp": "bin/marketping-mcp.js" },
   "files": ["bin", "tools.json", "server.json", "smithery.yaml", "README.md", "LICENSE"],
   "engines": { "node": ">=18" },
