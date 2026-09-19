@@ -1,0 +1,732 @@
+[
+  {
+    "name": "search",
+    "title": "Search MarketPing",
+    "description": "Search MarketPing's Indian stock market data — companies, corporate announcements, IPO issues, and the text of annual reports, earnings-call transcripts and investor presentations. Returns results with ids to pass to `fetch`. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "What to search for"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Search MarketPing",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "fetch",
+    "title": "Fetch a MarketPing record",
+    "description": "Retrieve the full content of one search result by its id — a company profile with fundamentals and recent announcements, one announcement with its measured price reaction, one page of a filing, or one IPO issue. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "An id returned by search"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Fetch a MarketPing record",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "resolve_company",
+    "title": "Find a company",
+    "description": "Find an Indian listed company by name, ticker or partial match. Returns candidates with their MarketPing slug — call this FIRST unless you already hold a slug, because every other company tool takes one. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Company name, NSE/BSE symbol, or part of one"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Find a company",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "company_snapshot",
+    "title": "Company fundamentals",
+    "description": "Latest fundamentals and valuation for one company: price, market cap, P/E, P/B, TTM revenue and profit, growth, ROCE/ROE and debt ratios. Use for 'how is X doing', 'what does X trade at', or as the numeric backdrop before reading filings. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Company slug (preferred), NSE symbol, or UUID"
+        }
+      },
+      "required": [
+        "company"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Company fundamentals",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "recent_alerts",
+    "title": "Recent corporate announcements",
+    "description": "Recent NSE/BSE corporate filings with MarketPing's AI classification — subject, category, document type, importance and sentiment. This is MarketPing's core dataset: use it for 'what has X announced lately', 'any news on X', or (with no company) 'what is happening in the market today'. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Optional — omit for market-wide announcements"
+        },
+        "days": {
+          "type": "integer",
+          "description": "Look-back window in days (default 30, max 365)"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Recent corporate announcements",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "alert_reaction",
+    "title": "Measured price reaction to a filing",
+    "description": "How the market actually moved after ONE announcement: percentage returns at 5 minutes, 30 minutes, 1/2/3/5/7/15 days and 1/2/3 months from the announcement price. This is measured data, not a forecast — no other Indian data source publishes it. Get an alert id from recent_alerts first. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string",
+          "description": "Alert UUID from recent_alerts"
+        }
+      },
+      "required": [
+        "alert_id"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Measured price reaction to a filing",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "search_filings",
+    "title": "Search filing text",
+    "description": "Full-text search across every page MarketPing holds — annual reports, earnings-call transcripts, investor presentations. Returns {doc_id, page, snippet} hits to follow up with read_pages. SNIPPETS ARE KEYWORD WINDOWS, NOT FACTS: never state a figure from a snippet, open the page and take it from there. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "What to look for, in plain words"
+        },
+        "company": {
+          "type": "string",
+          "description": "Optional — restrict the search to one company"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Search filing text",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "list_documents",
+    "title": "Documents held for a company",
+    "description": "The documents MarketPing holds for a company — annual reports, earnings-call transcripts, investor presentations, results — newest first, each with a doc_id. A capped list is marked as truncated: never read one as the whole holding. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Company slug, NSE symbol, or UUID"
+        },
+        "doc_type": {
+          "type": "string",
+          "enum": [
+            "annual_report",
+            "earnings_call_transcript",
+            "investor_presentation",
+            "announcement",
+            "financial_results",
+            "brsr"
+          ],
+          "description": "Optional filter"
+        }
+      },
+      "required": [
+        "company"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Documents held for a company",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "doc_contents",
+    "title": "Document table of contents",
+    "description": "A document's table of contents: section titles, one-line summaries and page ranges. Read this BEFORE read_pages so you open the right four pages instead of guessing — annual reports run to 300+ pages. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "doc_id": {
+          "type": "string",
+          "description": "Document id from list_documents or search_filings"
+        }
+      },
+      "required": [
+        "doc_id"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Document table of contents",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "read_pages",
+    "title": "Read document pages",
+    "description": "The actual text of a page range (max 12 pages). This is the ONLY source you may quote a document from — cite as {doc_id, page, verbatim quote}, and the quote must really appear on that page. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "doc_id": {
+          "type": "string",
+          "description": "Document id"
+        },
+        "page_from": {
+          "type": "integer",
+          "description": "First page (1-based)"
+        },
+        "page_to": {
+          "type": "integer",
+          "description": "Last page; at most 12 pages per call"
+        }
+      },
+      "required": [
+        "doc_id",
+        "page_from"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Read document pages",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "audit_report",
+    "title": "Auditor opinions and CARO exceptions",
+    "description": "Auditor opinions, key audit matters, CARO exceptions and auditor changes per fiscal year, extracted page-cited from annual reports. Use for governance and red-flag questions. A missing year means not yet read — never read it as 'clean'. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Company slug, NSE symbol, or UUID"
+        }
+      },
+      "required": [
+        "company"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Auditor opinions and CARO exceptions",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "screener_fields",
+    "title": "Screener metrics catalog",
+    "description": "The metrics you can filter and sort on in run_screener, with labels, units and groups. Call this before building a screen if you are unsure of a field name. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "string",
+          "description": "Optional group filter, e.g. Valuation, Profitability"
+        },
+        "featured_only": {
+          "type": "boolean",
+          "description": "Default true — the commonly used subset"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Screener metrics catalog",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "run_screener",
+    "title": "Screen companies on fundamentals",
+    "description": "Filter MarketPing's universe of 5,400+ NSE/BSE companies on fundamentals — 108 metrics covering valuation, growth, profitability, leverage and ownership. Use for 'find companies where…' questions. Field names come from screener_fields. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "array",
+          "description": "Conditions to apply, e.g. [{\"field\":\"roce\",\"op\":\"gt\",\"value\":20}]",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "op": {
+                "type": "string",
+                "enum": [
+                  "gt",
+                  "gte",
+                  "lt",
+                  "lte",
+                  "between",
+                  "eq",
+                  "in"
+                ]
+              },
+              "value": {
+                "description": "Number, string, or [min, max] for between"
+              }
+            },
+            "required": [
+              "field",
+              "op"
+            ]
+          }
+        },
+        "match": {
+          "type": "string",
+          "enum": [
+            "all",
+            "any"
+          ],
+          "description": "Default all (AND)"
+        },
+        "sort_field": {
+          "type": "string"
+        },
+        "sort_dir": {
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max 25"
+        },
+        "page": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "filters"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Screen companies on fundamentals",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "ipo_pipeline",
+    "title": "IPO tracker",
+    "description": "Indian IPOs — open now, upcoming, closed or already listed — with price band, issue size, lot size, dates, subscription figures and post-listing performance. Covers mainboard and SME. MarketPing deliberately publishes no grey-market premium and no apply/avoid verdict; if you need those, this is not the source. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "upcoming",
+            "open",
+            "closed",
+            "listed"
+          ]
+        },
+        "board": {
+          "type": "string",
+          "enum": [
+            "regular",
+            "sme"
+          ]
+        },
+        "year": {
+          "type": "integer"
+        },
+        "query": {
+          "type": "string",
+          "description": "Search issues by name"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "recent",
+            "closing",
+            "opening",
+            "size",
+            "subscription",
+            "gain"
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max 40"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "IPO tracker",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "fpi_flows",
+    "title": "Foreign investor flows",
+    "description": "Foreign portfolio investor (FPI/FII) flows into Indian markets as NSDL publishes them — daily net equity and debt flows, by investment route, with month-to-date totals. Use for 'are foreign investors buying' questions. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "description": "equity (default), debt, hybrid, aifs, mutual_funds"
+        },
+        "route": {
+          "type": "string",
+          "description": "Default all; codes differ per category"
+        },
+        "from_date": {
+          "type": "string",
+          "description": "YYYY-MM-DD"
+        },
+        "to_date": {
+          "type": "string",
+          "description": "YYYY-MM-DD"
+        },
+        "granularity": {
+          "type": "string",
+          "enum": [
+            "daily",
+            "monthly"
+          ]
+        },
+        "breakdown": {
+          "type": "boolean",
+          "description": "Period totals instead of a series"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "1m",
+            "mtd",
+            "ytd"
+          ],
+          "description": "With breakdown"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Foreign investor flows",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "results_calendar",
+    "title": "Results calendar",
+    "description": "Which Indian companies report quarterly results on which dates, as the exchanges have published them. Default window is the next 60 days. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "from_date": {
+          "type": "string",
+          "description": "YYYY-MM-DD"
+        },
+        "to_date": {
+          "type": "string",
+          "description": "YYYY-MM-DD; span capped at 120 days"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Results calendar",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "daily_briefing",
+    "title": "Daily market briefing",
+    "description": "MarketPing's briefing for the latest NSE trading day: market score, index and sector moves, FII/DII and FPI flows, breadth, movers, and the day's most important announcements. Use for 'how did the Indian market do today'. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Daily market briefing",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "list_stacks",
+    "title": "Stacks — curated lists that rebuild daily",
+    "description": "MarketPing's curated stacks: public lists of Indian companies rebuilt every day from layers (quality/value/growth screens, an index, a Discover catalyst page) with one rule — how many layers a company must clear today. Returns each stack's slug, rule, member count and what entered or left today. With a linked MarketPing account, also the caller's own stacks. Use for 'which companies clear several quality screens right now'. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Stacks — curated lists that rebuild daily",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "run_stack",
+    "title": "A stack's members today",
+    "description": "The companies in one stack as of today's snapshot, with how many layers each clears, which ones, how many consecutive days it has been in the stack, market cap and P/E. Takes a slug from list_stacks. Membership is a fact about screens cleared today — never a rating. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "stack": {
+          "type": "string",
+          "description": "Stack slug from list_stacks"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Rows to return, max 50 (default 25)"
+        }
+      },
+      "required": [
+        "stack"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "A stack's members today",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "stack_changes",
+    "title": "What changed in a stack",
+    "description": "What entered, left, cleared more or fewer layers in a stack since a date (default: the previous daily snapshot). Use for 'what is new in this list today / this week'. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "stack": {
+          "type": "string",
+          "description": "Stack slug from list_stacks"
+        },
+        "since": {
+          "type": "string",
+          "description": "YYYY-MM-DD; compares today's snapshot with the newest one on or before this date"
+        }
+      },
+      "required": [
+        "stack"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "What changed in a stack",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "list_models",
+    "title": "Your saved valuation models",
+    "description": "The valuation models saved to this MarketPing account (Models: DCF, excess return, sum of parts), with the company and a link. Needs a linked account. Optional `company` narrows to one company (slug). Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Company slug to narrow to (optional)"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Your saved valuation models",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "run_model",
+    "title": "Recompute a saved model",
+    "description": "Recompute one of the account holder's saved models (DCF, excess return or sum of parts) with MarketPing's engine and return the value per share, the bridge and the projected years (3, 5 or 10, as the model sets). The figure is the holder's own arithmetic over their inputs — report it as THEIR model, never as MarketPing's view or a target. Needs a linked account; nothing is changed. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string",
+          "description": "Model slug from list_models"
+        }
+      },
+      "required": [
+        "model"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Recompute a saved model",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "watchlist_list",
+    "title": "Your MarketPing watchlist",
+    "description": "The companies this MarketPing account follows, with their alert status. Needs a linked MarketPing account — the assistant will offer to connect one. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Your MarketPing watchlist",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "watchlist_add",
+    "title": "Follow a company",
+    "description": "Add a company to this MarketPing account's watchlist, so its filings start arriving as alerts. Needs a linked MarketPing account. Subject to the plan's company limit. Factual data only — MarketPing publishes no buy/sell recommendations, no price targets and no IPO grey-market premium.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Company slug, NSE symbol, or UUID"
+        }
+      },
+      "required": [
+        "company"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Follow a company",
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  }
+]

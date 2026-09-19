@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "in.marketping/marketping",
+  "description": "Indian stock market research: NSE/BSE filings read by AI with measured price reactions, fundamentals for 5,000+ companies, page-cited document reads, screener, IPO pipeline, FPI flows. 20 free read-only tools, no API key; 4 account tools via OAuth 2.1.",
+  "version": "1.0.0",
+  "websiteUrl": "https://marketping.in/mcp",
+  "repository": { "url": "https://github.com/marketping/mcp-server", "source": "github" },
+  "remotes": [
+    { "type": "streamable-http", "url": "https://mcp.marketping.in/mcp" }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@marketping/mcp",
+      "version": "1.0.0",
+      "transport": { "type": "stdio" }
+    }
+  ]
+}

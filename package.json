@@ -1,0 +1,14 @@
+{
+  "name": "@marketping/mcp",
+  "version": "1.0.0",
+  "description": "stdio bridge to the MarketPing MCP server (Indian stock market research: NSE/BSE filings with measured price reactions, fundamentals, IPOs, FPI flows). Wraps https://mcp.marketping.in/mcp with mcp-remote.",
+  "license": "MIT",
+  "author": "MarketPing <support@marketping.in> (https://marketping.in)",
+  "homepage": "https://marketping.in/mcp",
+  "repository": { "type": "git", "url": "https://github.com/marketping/mcp-server.git" },
+  "bin": { "marketping-mcp": "bin/marketping-mcp.js" },
+  "files": ["bin", "tools.json", "server.json", "smithery.yaml", "README.md", "LICENSE"],
+  "engines": { "node": ">=18" },
+  "dependencies": { "mcp-remote": "^0.14.2" },
+  "keywords": ["mcp", "model-context-protocol", "stocks", "india", "nse", "bse", "filings", "ipo", "marketping"]
+}

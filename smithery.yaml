@@ -1,0 +1,12 @@
+# Smithery configuration for the MarketPing MCP server.
+# The server is REMOTE (https://mcp.marketping.in/mcp, Streamable HTTP, no API key). This stdio
+# entry wraps it with mcp-remote for clients that need a local command; no configuration is
+# required and none is collected.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties: {}
+    additionalProperties: false
+  commandFunction: |-
+    () => ({ command: "node", args: ["bin/marketping-mcp.js"] })
