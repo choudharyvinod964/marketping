@@ -39,20 +39,27 @@ https://mcp.marketping.in/mcp
 }
 ```
 
-**Clients that only speak stdio** — the bridge in this repo wraps the remote endpoint with
+**Clients that only speak stdio** — bridge to the same endpoint with
 [`mcp-remote`](https://www.npmjs.com/package/mcp-remote):
 
 ```json
 {
   "mcpServers": {
-    "marketping": { "command": "npx", "args": ["-y", "@marketping/mcp"] }
+    "marketping": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.marketping.in/mcp"]
+    }
   }
 }
 ```
 
-`npx -y @marketping/mcp` runs `bin/marketping-mcp.js`, which execs `mcp-remote` against the endpoint
-above and nothing else. It stores no credentials of its own; `mcp-remote` keeps OAuth tokens in its
-standard location (`~/.mcp-auth`) only if you link an account.
+That runs the published `mcp-remote` bridge against the endpoint above and nothing else. It stores
+no credentials of its own; `mcp-remote` keeps OAuth tokens in its standard location (`~/.mcp-auth`)
+only if you link an account.
+
+`bin/marketping-mcp.js` in this repo does the same thing as a named wrapper. It is **not published
+to npm**, so `npx -y @marketping/mcp` will not resolve — run it from a clone, or just use the
+`mcp-remote` form above.
 
 ## The 24 tools
 
