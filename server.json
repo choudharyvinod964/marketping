@@ -3,8 +3,15 @@
   "name": "in.marketping/marketping",
   "title": "MarketPing",
   "description": "Indian stocks: NSE/BSE filings read by AI with price reactions, fundamentals, IPOs and FPI flows.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "websiteUrl": "https://marketping.in/mcp",
+  "icons": [
+    {
+      "src": "https://marketping.in/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    }
+  ],
   "repository": {
     "url": "https://github.com/choudharyvinod964/marketping",
     "source": "github"
